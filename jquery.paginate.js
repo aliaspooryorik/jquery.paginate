@@ -50,7 +50,8 @@
 				'pagingtop'				: true, // show paging at the top
 				'pagingbottom'			: true, // show paging at the bottom
 				'classname'				: '', // class name to apply to the <ol>
-				'lazyload'				: true // load images when visible
+				'lazyload'				: true, // load images when visible
+				'element'				: 'div' // this is the HTML element type for each item
 			}, options);
 			
 			
@@ -59,7 +60,7 @@
 				i = 0;
 			
 			this.currentPage = 1; // 1 based
-			this.$items = $this.find('>div').hide(); // divs to page - hide by default
+			this.$items = $this.find('>'+this.options.element).hide(); // divs to page - hide by default
 			this.pagecount = Math.ceil(this.$items.length / this.options.itemsperpage);
 			this.$pager = $('<ol>').addClass('paging-control ' + this.options.classname);
 			this.pagingcontrols = [];
