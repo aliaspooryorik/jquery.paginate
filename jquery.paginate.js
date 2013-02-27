@@ -70,7 +70,10 @@
 				// we do need paging so check that lazyloading is required
 				if (this.options.lazyload){
 					this.$items.find('img').each(function () {
-						$(this).data('src', this.src).removeAttr('src');
+						var $this = $(this);
+						if (typeof $(this).data('src') == "undefined"){
+							$(this).data('src', this.src).removeAttr('src');
+						}
 					});
 				}
 				// paging
@@ -81,6 +84,11 @@
 					}).appendTo(this.$pager);
 				}
 				
+				$('<li>').text('all').on('click', function () {
+						var $self = $(this);
+						context.showAll();
+					}).appendTo(this.$pager);
+					
 				if (this.options.pagingtop) {
 					$('<div class="paginator top">').insertBefore($this);
 				}
@@ -89,18 +97,21 @@
 				}
 				
 				this.pagingcontrols = this.$pager.appendTo('div.paginator');
-				context.showPage(1);
 			}
-			else{
-				// show all 
-				this.$items.show();
-			}
+			context.showPage(1);
 			
 		},
 		
 		destroy : function () {
 			return this.each(function () {
 				$(window).unbind('.paginate');
+			});
+		},
+		
+		showAll : function (){
+			this.$items.show();
+			$.each(this.pagingcontrols, function(){
+				$('>li', this).removeClass('active').last().addClass('active');
 			});
 		},
 		
@@ -111,9 +122,7 @@
 				$('>li', this.pagingcontrols).removeClass('active').filter('[data-page=' + pageNumber + ']').addClass('active');
 			}
 			$currentitems.fadeIn().find('img').each(function () {
-				if (this.src === '') {
-					this.src = $(this).data('src');
-				}
+				this.src = $(this).data('src');
 			});
 		
 		}
