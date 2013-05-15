@@ -89,6 +89,8 @@
 					$('<div class="paginator bottom">').insertAfter($this).append(this.$pager);
 				}
 				
+				this.pagingcontrols = this.$pager;
+				
 				context.showPage(1);
 			}
 			else{
