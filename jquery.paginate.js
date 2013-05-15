@@ -83,13 +83,12 @@
 				}
 				
 				if (this.options.pagingtop) {
-					$('<div class="paginator top">').insertBefore($this);
+					$('<div class="paginator top">').insertBefore($this).append(this.$pager);
 				}
 				if (this.options.pagingbottom) {
-					$('<div class="paginator bottom">').insertAfter($this);
+					$('<div class="paginator bottom">').insertAfter($this).append(this.$pager);
 				}
 				
-				this.pagingcontrols = this.$pager.appendTo('div.paginator');
 				context.showPage(1);
 			}
 			else{
