@@ -11,7 +11,8 @@ Accepts the following options - all are optional with the defaults shown
 	'pagingtop'				: true, // show paging at the top
 	'pagingbottom'			: true, // show paging at the bottom
 	'classname'				: '', // class name to apply to the <ol>
-	'lazyload'				: true // load images when visible
+	'lazyload'				: true, // load images when visible
+	'element'				: 'div' // if using a list change to li
 	
 ## example
 
