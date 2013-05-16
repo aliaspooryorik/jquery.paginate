@@ -70,8 +70,11 @@
 				
 				// we do need paging so check that lazyloading is required
 				if (this.options.lazyload){
-					this.$items.find('img').each(function () {
-						$(this).data('src', this.src).removeAttr('src');
+					this.$items.find('img').each(function (){
+						var $this=$(this);
+						if(typeof $(this).data('src')=="undefined"){
+							$(this).data('src',this.src).removeAttr('src')
+						}
 					});
 				}
 				// paging
@@ -81,21 +84,24 @@
 						context.showPage($self.attr('data-page'));
 					}).appendTo(this.$pager);
 				}
+				$('<li>').text('all').on('click', function () {
+						var $self = $(this);
+						context.showAll();
+					}).appendTo(this.$pager);
 				
 				if (this.options.pagingtop) {
-					$('<div class="paginator top">').insertBefore($this).append(this.$pager);
+					$('<div class="paginator top">').insertBefore($this).append(this.$pager);;
 				}
 				if (this.options.pagingbottom) {
-					$('<div class="paginator bottom">').insertAfter($this).append(this.$pager);
+					$('<div class="paginator bottom">').insertAfter($this).append(this.$pager);;
 				}
 				
 				this.pagingcontrols = this.$pager;
-				
 				context.showPage(1);
 			}
 			else{
 				// show all 
-				this.$items.show();
+				this.showAll();
 			}
 			
 		},
@@ -113,11 +119,26 @@
 				$('>li', this.pagingcontrols).removeClass('active').filter('[data-page=' + pageNumber + ']').addClass('active');
 			}
 			$currentitems.fadeIn().find('img').each(function () {
-				if (this.src === '') {
-					this.src = $(this).data('src');
+				var $img = $(this);
+				if (typeof $img.data('src')!=="undefined") {
+					this.src = $img.data('src');
+					$img.removeAttr('data-src');
 				}
 			});
 		
+		},
+		
+		showAll : function (){
+			this.$items.show().find('img').each(function (){
+				var $img = $(this);
+				if (typeof $img.data('src')!=="undefined") {
+					this.src = $img.data('src');
+					$img.removeAttr('data-src');
+				}
+			});
+			$.each(this.pagingcontrols, function(){
+				$('>li', this).removeClass('active').last().addClass('active');
+			});
 		}
 		
 	};
